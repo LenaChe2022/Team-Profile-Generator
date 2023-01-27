@@ -6,6 +6,7 @@ const Engineer = require('./lib/Engineer');
 const Intern = require('./lib/Intern');
 
 
+
 class Generator{
 constructor(){
     this.htmlFileText='';
@@ -15,7 +16,7 @@ constructor(){
 welcome() {
     console.log(`
     Welcome to the Team Generator!
-    Use 'npm run reset' to reset the dist/folder.`);
+    `);
     this.managerCreate();
 }
 
@@ -42,12 +43,9 @@ managerCreate(){
        ])
        .then((data) => {
         this.manager = new Manager (data.managerName, data.managerId,data.managerEmail,data.managerOffice);
-        //this.manager.printInfo();
         this.htmlFileText += this.manager.createHtmlCard();
-        console.log(this.htmlFileText);
         this.newteamMemberCreate();
        })
-       //.then((data) =>  this.newteamMemberCreate());
 }
 
 newteamMemberCreate() {
@@ -99,14 +97,37 @@ engeneerCreate(){
         this.engineer = new Engineer (data.engineerName, data.engineerId,data.engineerEmail,data.gitHubName);
         
         this.htmlFileText += this.engineer.createHtmlCard();
-        console.log(this.htmlFileText);
         this.newteamMemberCreate();
        });
 }
 
-internCreate(){}
+internCreate(){
+    inquirer
+      .prompt([
+         {type: 'input',
+           message: "What is your Intern's name?",
+           name: 'internName',  
+         },
+         {type: 'input',
+           message: "What is your Intern's id?",
+           name: 'internId',  
+         },
+         {type: 'input',
+           message: "What is your Intern's email?",
+           name: 'internEmail',  
+         },
+         {type: 'input',
+           message: "What is your Intern's school?",
+           name: 'school',  
+         }
+       ])
+       .then((data) => {
+        this.intern = new Intern (data.internName, data.internId,data.internEmail,data.school);
+        this.htmlFileText += this.intern.createHtmlCard();
+        this.newteamMemberCreate();
+       });
+}
 
-//TODO a function creates an HTML file with input data
 fileCreate(){
 this.wholeText = `<!DOCTYPE html>
 <html lang="en">
@@ -122,7 +143,7 @@ this.wholeText = `<!DOCTYPE html>
 <body>
     <div class="container-fluid">
         <div class="row">
-            <div class="col-12 p-5 mb-3 team-heading">
+            <div class="col-12 p-5 mb-3 heading">
                 <h1 class="text-center">My Team</h1>
             </div>
         </div>
@@ -141,20 +162,15 @@ this.wholeText = `<!DOCTYPE html>
     
     </html> `; 
 
-console.log(this.wholeText);
-
 this.writeToFile(this.wholeText);
 
-// fs.writeFile('./dist/index.html',`${this.wholeText}`,(err)=>
-// err ? console.error(err) : console.log('Success!'));
 }
 
 writeToFile(data){
-    //fs.appendFileSync('./dist/index.html',`${data}`,'utf8');
     fs.writeFileSync('./dist/index.html',`${data}`,'utf8');
 }
 
-    quit() {
+     quit() {
         this.fileCreate();
         this.message = (`
         Thank you!
@@ -166,5 +182,5 @@ writeToFile(data){
 }
 
 const generator = new Generator;
-//generator.welcome();
+generator.welcome();
 

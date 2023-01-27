@@ -1,0 +1,17 @@
+
+
+body{
+    background-color: rgb(28, 75, 122);
+}
+
+.heading{
+    color: rgb(28, 75, 122);
+    background-color: rgb(173, 192, 197);
+}
+
+.employee-card{
+    margin:20px;
+    text-align: center;
+    background-color: rgb(173, 192, 197);
+}
+
